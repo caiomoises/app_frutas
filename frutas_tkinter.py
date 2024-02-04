@@ -5,7 +5,39 @@ from reportlab.pdfgen import canvas
 class GerenciadorSupermercado:
     def __init__(self, root):
         self.root = root
-        self.root.title("Supermercado de Frutas e Verduras")
+        self.root.title("Baratão das Frutas")
+
+        # Adicionando temas
+        self.tema_claro = {
+            'background': 'white',
+            'foreground': 'black',
+            'activeBackground': '#C0C0C0',
+            'activeForeground': 'black'
+        }
+
+        self.tema_escuro = {
+            'background': '#2E2E2E',
+            'foreground': 'white',
+            'activeBackground': '#404040',
+            'activeForeground': 'white'
+        }
+
+        # Definindo tema padrão
+        self.tema_atual = self.tema_claro
+
+        # Aplicando cores iniciais
+        self.root.tk_setPalette(background=self.tema_atual['background'],
+                                foreground=self.tema_atual['foreground'],
+                                activeBackground=self.tema_atual['activeBackground'],
+                                activeForeground=self.tema_atual['activeForeground'])
+
+        # Botões para escolher o tema
+        self.botao_tema_claro = tk.Button(root, text="Tema Claro", command=self.aplicar_tema_claro)
+        self.botao_tema_claro.pack(side="left")
+
+        self.botao_tema_escuro = tk.Button(root, text="Tema Escuro", command=self.aplicar_tema_escuro)
+        self.botao_tema_escuro.pack(side="right")
+
 
         # Variáveis para armazenar dados
         self.frutas = {"Maçã": 2.5, "Banana": 1.8, "Laranja": 1.0}
@@ -64,6 +96,20 @@ class GerenciadorSupermercado:
 
         self.nota_fiscal = tk.Text(root, height=10, width=40)
         self.nota_fiscal.pack()
+
+    def aplicar_tema_claro(self):
+        self.tema_atual = self.tema_claro
+        self.atualizar_cores_tema()
+
+    def aplicar_tema_escuro(self):
+        self.tema_atual = self.tema_escuro
+        self.atualizar_cores_tema()
+
+    def atualizar_cores_tema(self):
+        self.root.tk_setPalette(background=self.tema_atual['background'],
+                                foreground=self.tema_atual['foreground'],
+                                activeBackground=self.tema_atual['activeBackground'],
+                                activeForeground=self.tema_atual['activeForeground'])
 
     def pesquisar_fruta(self):
         pesquisa = self.entry_pesquisa.get().capitalize()
